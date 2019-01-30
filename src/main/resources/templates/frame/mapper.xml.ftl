@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${package}.${moduleName}.mapper.${className}Mapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="${package}.${moduleName}.entity.${className}" >
+        #foreach($column in $columns)
+        <result column="${column.columnName}" property="${column.attrname}" />
+        #end
+    </resultMap>
+
+    <!-- 多表页面信息查询分页 -->
+    <select id="select${className}Page" parameterType="map" resultType="map">
+
+    </select>
+
+    <!-- 多表信息查询 -->
+    <select id="select${className}List" parameterType="map" resultType="map">
+
+    </select>
+
+
+</mapper>

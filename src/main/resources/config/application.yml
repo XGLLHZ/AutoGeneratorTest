@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: dev   #多环境配置
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle10gDialect
+  http:
+    encoding:
+      enabled: true
+      charset: utf-8
+      force: true
+server:
+  port: 8081
+  tomcat:
+    uri-encoding: UTF-8
+mybatis-plus:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: org.huangzi.huangziframethree.entity   #实体扫描
+  global-config:
+    id-type: 1   #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    db-column-underline: true   #驼峰下划线转换
+    logic-delete-value: 1   #逻辑删除
+    logic-not-delete-value: 0
+    refresh-mapper: true   #刷新mapper调试神器
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    jdbc-type-for-null: 'null'   #配置JdbcTypeForNull, oracle数据库必须配置
+

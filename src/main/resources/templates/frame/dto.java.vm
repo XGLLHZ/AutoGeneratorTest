@@ -1,0 +1,80 @@
+package ${cfg.dto};
+#foreach($pkg in ${table.importPackages})
+import ${pkg};
+#end
+#if(${entityLombokModel})
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+#end
+import net.qmgf.frame.common.base.model.BaseEntityDto;
+
+/**
+ * <p>
+ * $!{table.comment}
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${entityLombokModel})
+@Data
+#if(${superEntityClass})
+@EqualsAndHashCode(callSuper = true)
+#else
+@EqualsAndHashCode(callSuper = false)
+#end
+@Accessors(chain = true)
+#end
+@ApiModel(value = "$!{table.comment}")
+public class ${entity}Dto extends BaseEntityDto {
+
+    private static final long serialVersionUID = 1L;
+
+## ----------  BEGIN 字段循环遍历  ----------
+    #foreach($field in ${table.fields})
+        #if(${field.keyFlag})
+            #set($keyPropertyName=${field.propertyName})
+        #end
+        #if("$!field.comment" != "")
+    /**
+     * ${field.comment}
+     */
+    @ApiModelProperty(value = "$!field.comment")
+        #end
+    private ${field.propertyType} ${field.propertyName};
+    #end
+## ----------  END 字段循环遍历  ----------
+
+    #if(!${entityLombokModel})
+        #foreach($field in ${table.fields})
+            #if(${field.propertyType.equals("boolean")})
+                #set($getprefix="is")
+            #else
+                #set($getprefix="get")
+            #end
+
+            public ${field.propertyType} ${getprefix}${field.capitalName}()
+
+            {
+                return ${field.propertyName};
+            }
+
+            #if(${entityBuilderModel})
+            public ${entity} set${field.capitalName}(${field.propertyType} ${field.propertyName}){
+            #else
+                public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+            #end
+            this.${field.propertyName} = ${field.propertyName};
+            #if(${entityBuilderModel})
+                return this;
+            #end
+        }
+        #end
+    #end
+
+
+}

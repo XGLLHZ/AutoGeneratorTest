@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.huangzi.huangziframethree.mapper.IHostInfoMapper">
+
+    <!--获取主播信息列表-->
+    <select id="list" resultType="org.huangzi.huangziframethree.dto.HostInfoDto">
+        SELECT
+        hostInfo.ID,
+        hostInfo.HOST_ROOM,
+        hostInfo.HOST_NAME,
+        hostInfo.HOST_GENDER,
+        hostInfo.HOST_AGE,
+        hostInfo.HOST_IDCARD,
+        hostInfo.HOST_PHONE,
+        hostInfo.HOST_LOC
+        FROM HOST_INFO hostInfo
+        WHERE hostInfo.DELETE_FLAG='0'
+
+        <if test="condition != null">
+            <if test="condition.hostName !=null and condition.hostName != ''">
+                <bind name="hostName" value="condition.hostName+'%'"/>
+                AND hostInfo.HOST_NAME LIKE #{hostName}
+            </if>
+        </if>
+
+        <if test="condition != null">
+            <if test="condition.hostRoom !=null and condition.hostRoom != ''">
+                <bind name="hostRoom" value="condition.hostRoom+'%'"/>
+                AND hostInfo.HOST_ROOM LIKE #{hostRoom}
+            </if>
+        </if>
+
+        <if test="condition != null">
+            <if test="condition.hostGender !=null and condition.hostGender != ''">
+                <bind name="hostGender" value="condition.hostGender+'%'"/>
+                AND hostInfo.HOST_GENDER LIKE #{hostGender}
+            </if>
+        </if>
+    </select>
+
+</mapper>

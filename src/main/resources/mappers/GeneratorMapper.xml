@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.qmgf.frame.biz.generator.mapper.GeneratorMapper">
+
+    <!--查询当前数据库下所有的表名以及表的描述-->
+    <select id="getTableList" resultType="net.qmgf.frame.biz.generator.dto.GeneratorTableDto">
+        SELECT
+        TABLE_NAME tableName,
+        comments tableComments,
+        sysdate createTime
+        FROM all_tab_comments
+        WHERE 0 = 0
+        <if test="condition != null " >
+            <if test="condition.tableName!=null and condition.tableName!=''">
+                <bind name="tableName" value="condition.tableName+'%'"/>
+                AND TABLE_NAME LIKE #{tableName}
+            </if>
+        </if>
+
+    </select>
+
+</mapper>
